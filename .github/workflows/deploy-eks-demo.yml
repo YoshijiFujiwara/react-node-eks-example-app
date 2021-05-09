@@ -24,7 +24,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
       - name: Setup ECR
-        run: aws ecr get-login-password | docker login --username AWS --password-stdin https://${{ secrets.REGISTRY_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com
+        run: aws ecr get-login-password | docker login --username AWS --password-stdin https://${{ secrets.REGISTORY_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com
       - name: build dist, build image, push to ECR
         run: npx nx deploy eks-demo
       # [FYI] https://zenn.dev/cryks/articles/6b7492677d0b51007931

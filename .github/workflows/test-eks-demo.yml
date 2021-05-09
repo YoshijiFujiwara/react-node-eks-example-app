@@ -8,5 +8,5 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
-      - uses: mansagroup/nrwl-nx-action@v2
+      - uses: mansagroup/nrwl-nx-action@v2.1.0
       - run: npx nx test eks-demo && npx nx lint eks-demo

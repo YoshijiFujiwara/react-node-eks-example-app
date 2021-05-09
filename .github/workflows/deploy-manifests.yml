@@ -27,5 +27,5 @@ jobs:
           echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/kube_config
           export KUBECONFIG=/tmp/kube_config
           kubectl apply -f k8s
-          kubectl delete secrets eks-demo-local-secret
+          kubectl delete secrets eks-demo-local-secrets
           kubectl create secret generic eks-demo-local-secrets --from-env-file=.prod.env

@@ -28,8 +28,8 @@ jobs:
       - name: Build dist, build image, push to ECR
         run: |
           npx env-cmd -f .prod.env npx nx build eks-demo --skip-nx-cache
-          docker build -f ./apps/eks-demo/Dockerfile . -t 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test
-          docker push 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test
+          docker build -f ./apps/eks-demo/Dockerfile . -t ${{ secrets.REGISTORY_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/eks-test
+          docker push ${{ secrets.REGISTORY_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/eks-test
       # [FYI] https://zenn.dev/cryks/articles/6b7492677d0b51007931
       - name: Use kubectl
         uses: azure/setup-kubectl@v1

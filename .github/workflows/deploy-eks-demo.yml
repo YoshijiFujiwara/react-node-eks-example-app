@@ -11,19 +11,35 @@ env:
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
 
 jobs:
-  build-and-push:
-    name: Build and deploy
+  build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Setup ECR
-      run: |
-        # Login to AWS ECR
-        $( aws ecr get-login --no-include-email )
-    - name: Build and tag the image and push
-      run: npx nx deploy eks-demo
-    - name: restart deployment
-      run: kubectl rollout restart deployment eks-demo-depl
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15.14.0
+      - name: Install dependencies
+        run: npm install
+      - name: Setup ECR
+        run: $( aws ecr get-login --no-include-email )
+      - name: build dist, build image, push to ECR
+        run: npx nx deploy eks-demo
+      # [FYI] https://zenn.dev/cryks/articles/6b7492677d0b51007931
+      - name: Use kubectl
+        uses: azure/setup-kubectl@v1
+      - name: setup aws credential
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+      - name: apply manifest and udpate secrets
+        run: |
+          echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/kube_config
+          export KUBECONFIG=/tmp/kube_config
+          kubectl rollout restart deployment eks-demo-depl

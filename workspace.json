@@ -26,17 +26,6 @@
       "sourceRoot": "apps/eks-demo/src",
       "projectType": "application",
       "targets": {
-        "deploy": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              "npx env-cmd -f .prod.env nx build --skip-nx-cache eks-demo",
-              "docker build -f ./apps/eks-demo/Dockerfile . -t 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test",
-              "docker push 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test"
-            ],
-            "parallel": false
-          }
-        },
         "build": {
           "executor": "@nrwl/web:build",
           "outputs": ["{options.outputPath}"],
@@ -138,17 +127,6 @@
       "sourceRoot": "apps/api/src",
       "projectType": "application",
       "targets": {
-        "deploy": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              "nx build --skip-nx-cache api",
-              "docker build -f ./apps/api/Dockerfile . -t 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test-api",
-              "docker push 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test-api"
-            ],
-            "parallel": false
-          }
-        },
         "build": {
           "executor": "@nrwl/node:build",
           "outputs": ["{options.outputPath}"],

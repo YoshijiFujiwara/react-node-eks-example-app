@@ -1,0 +1,17 @@
+name: test-api
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15.14.0
+      - name: Install dependencies
+        run: npm install
+      - run: npx nx test api && npx nx lint api

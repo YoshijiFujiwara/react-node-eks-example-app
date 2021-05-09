@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: yoshijifujiwara/eks-demo-api
+          image: 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test-api
           env:
             - name: NX_API_PORT
               valueFrom:

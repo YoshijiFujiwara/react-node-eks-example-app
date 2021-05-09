@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: eks-demo
-          image: yoshijifujiwara/eks-demo
+          image: 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test
 ---
 apiVersion: v1
 kind: Service

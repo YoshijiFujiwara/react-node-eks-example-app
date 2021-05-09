@@ -31,7 +31,8 @@
           "options": {
             "commands": [
               "npx env-cmd -f .prod.env nx build eks-demo",
-              "docker build -f ./apps/eks-demo/Dockerfile . -t yoshijifujiwara/eks-demo"
+              "docker build -f ./apps/eks-demo/Dockerfile . -t 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test",
+              "docker push 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test"
             ],
             "parallel": false
           }
@@ -142,7 +143,8 @@
           "options": {
             "commands": [
               "NODE_ENV=production nx build api",
-              "docker build -f ./apps/api/Dockerfile . -t yoshijifujiwara/eks-demo-api"
+              "docker build -f ./apps/api/Dockerfile . -t 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test-api",
+              "docker push 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test-api"
             ],
             "parallel": false
           }

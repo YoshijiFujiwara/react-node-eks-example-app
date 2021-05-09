@@ -5,7 +5,7 @@ import * as cors from 'cors';
 const app = express();
 app.use(cors());
 
-const greeting: Message = { message: 'Welcome to api!' };
+const greeting: Message = { message: 'Welcome to api!デプロイチェックメッセージ！' };
 
 app.get('/api', (req, res) => {
   res.send(greeting);

@@ -15,6 +15,7 @@ export const App = () => {
       <div style={{ textAlign: 'center' }}>
         <h1>Welcome to eks-demo!!!!!!!!!</h1>
         <h2>素晴らしい！</h2>
+        <h2>デプロイチェックのために文言を変更するやで</h2>
         <img
           width="450"
           src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png"

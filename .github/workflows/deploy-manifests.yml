@@ -11,5 +11,21 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
-      - run: kubectl apply -f k8s
-      - run: kubectl create secret generic eks-demo-local-secrets --from-env-file=.prod.env
+      # [FYI] https://zenn.dev/cryks/articles/6b7492677d0b51007931
+      - name: Use kubectl
+        uses: azure/setup-kubectl@v1
+      - name: setup aws credential
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+      - name: apply manifest and udpate secrets
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        run: |
+          echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/kube_config
+          export KUBECONFIG=/tmp/kube_config
+          kubectl apply -f k8s
+          kubectl delete secrets eks-demo-local-secret
+          kubectl create secret generic eks-demo-local-secrets --from-env-file=.prod.env

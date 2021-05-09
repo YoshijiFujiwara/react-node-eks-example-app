@@ -25,7 +25,7 @@ jobs:
           node-version: 15.14.0
       - name: Install dependencies
         run: npm install
-      - name: setup aws credential
+      - name: Setup aws credential
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -33,18 +33,18 @@ jobs:
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
       - name: Setup ECR
         run: aws ecr get-login-password | docker login --username AWS --password-stdin https://${{ secrets.REGISTORY_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com
-      - name: build dist, build image, push to ECR
+      - name: Build dist, build image, push to ECR
         run: npx nx deploy api
       # [FYI] https://zenn.dev/cryks/articles/6b7492677d0b51007931
       - name: Use kubectl
         uses: azure/setup-kubectl@v1
-      - name: setup aws credential
+      - name: Setup aws credential
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
-      - name: apply manifest and udpate secrets
+      - name: Restart deployment
         run: |
           echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/kube_config
           export KUBECONFIG=/tmp/kube_config

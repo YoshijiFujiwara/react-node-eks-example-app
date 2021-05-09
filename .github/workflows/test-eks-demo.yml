@@ -1,0 +1,11 @@
+name: test-eks-demo
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+      - run: npx nx test eks-demo && npx nx lint eks-demo

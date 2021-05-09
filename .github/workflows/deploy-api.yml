@@ -34,7 +34,7 @@ jobs:
       - name: Setup ECR
         run: aws ecr get-login-password | docker login --username AWS --password-stdin https://${{ secrets.REGISTORY_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com
       - name: Build dist, build image, push to ECR
-        run: \
+        run: |
           npx nx build --skip-nx-cache api
           docker build -f ./apps/api/Dockerfile . -t 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test-api
           docker push 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test-api

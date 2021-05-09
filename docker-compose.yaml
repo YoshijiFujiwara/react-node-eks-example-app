@@ -1,0 +1,12 @@
+version: '3'
+services:
+  eks-demo:
+    image: eks-demo
+    ports:
+      - '8080:80'
+  api:
+    image: api
+    env_file:
+      - .prod.env
+    ports:
+      - '8081:3535'

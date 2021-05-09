@@ -34,16 +34,13 @@ jobs:
       - name: Setup ECR
         run: aws ecr get-login-password | docker login --username AWS --password-stdin https://${{ secrets.REGISTORY_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com
       - name: Build dist, build image, push to ECR
-        run: npx nx deploy api
+        run: \
+          npx nx build --skip-nx-cache api
+          docker build -f ./apps/api/Dockerfile . -t 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test-api
+          docker push 961014738960.dkr.ecr.ap-northeast-1.amazonaws.com/eks-test-api
       # [FYI] https://zenn.dev/cryks/articles/6b7492677d0b51007931
       - name: Use kubectl
         uses: azure/setup-kubectl@v1
-      - name: Setup aws credential
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
       - name: Restart deployment
         run: |
           echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/kube_config

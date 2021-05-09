@@ -4,10 +4,11 @@ metadata:
   name: ingress-service
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
   rules:
     # プロダクションのdomain name!
-    - host: www.tulipgumi.xyz
+    - host: eks-demo.dev
       http:
         paths:
           # ingress-nginxは、上からマッチするルートが選ばれる

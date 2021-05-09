@@ -8,4 +8,5 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
-      - run: npx nx test api && npx nx lint api
+      - uses: mansagroup/nrwl-nx-action@v2
+      - run: nx test api && nx lint api

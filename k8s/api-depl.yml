@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: yoshijifujiwara/api
+          env:
+            - name: NX_API_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: eks-demo-local-secrets
+                  key: NX_API_PORT
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-srv
+spec:
+  selector:
+    app: api
+  ports:
+    - name: api
+      protocol: TCP
+      port: 8081
+      targetPort: 3535

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eks-demo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eks-demo
+  template:
+    metadata:
+      labels:
+        app: eks-demo
+    spec:
+      containers:
+        - name: eks-demo
+          image: yoshijifujiwara/eks-demo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eks-demo-srv
+spec:
+  selector:
+    app: eks-demo
+  ports:
+    - name: eks-demo
+      protocol: TCP
+      port: 8080
+      targetPort: 80
